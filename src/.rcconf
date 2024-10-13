@@ -97,7 +97,6 @@ hg() {
 
 # List files
 alias lsh='ls -larth'
-alias ll='lsh'
 
 # Sudo
 alias s='sudo'
