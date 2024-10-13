@@ -41,11 +41,15 @@ echo "'.rcconf' downloaded and updated in '.zshrc'"
 `.bashrc`:
 
 ```shell
-wget -O ~/.rcconf https://raw.githubusercontent.com/fuchs-fabian/dotfiles/refs/heads/main/src/.rcconf && source ~/.bashrc && echo "'.rcconf' updated in '.bashrc'"
+wget -O ~/.rcconf https://raw.githubusercontent.com/fuchs-fabian/dotfiles/refs/heads/main/src/.rcconf && \
+source ~/.bashrc && \
+echo "'.rcconf' updated in '.bashrc'"
 ```
 
 `.zshrc`:
 
 ```shell
-wget -O ~/.rcconf https://raw.githubusercontent.com/fuchs-fabian/dotfiles/refs/heads/main/src/.rcconf && source ~/.zshrc && echo "'.rcconf' updated in '.zshrc'"
+wget -O ~/.rcconf https://raw.githubusercontent.com/fuchs-fabian/dotfiles/refs/heads/main/src/.rcconf && \
+source ~/.zshrc && \
+echo "'.rcconf' updated in '.zshrc'"
 ```
