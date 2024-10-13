@@ -27,7 +27,7 @@ mkdocker \
 dcexist \
 dccheck \
 dcedit \
-dcupd \
+dcup \
 dcdown \
 dclogs \
 dcrestart \
@@ -380,7 +380,7 @@ dcedit() {
 }
 
 ## Up
-dcupd() {
+dcup() {
     dcexist || return 1
 
     if [ -z "$1" ]; then
@@ -418,7 +418,7 @@ dclogs() {
 ## Restart
 dcrestart() {
     dcdown "$1"
-    dcupd "$1"
+    dcup "$1"
     dclogs "$1"
 }
 
@@ -427,12 +427,12 @@ dcupdate() {
     if [ -z "$1" ]; then
         dcdown
         dclean
-        dcupd
+        dcup
         dclogs
     else
         dcdown "$1"
         dclean
-        dcupd "$1"
+        dcup "$1"
         dclogs "$1"
     fi
 }
