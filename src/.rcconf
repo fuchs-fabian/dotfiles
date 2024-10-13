@@ -2,9 +2,42 @@
 
 # DESCRIPTION:
 # This file contains aliases and functions that will be used in '.bashrc' and/or '.zshrc'.
+#
+# IMPORTANT:
+# This will overwrite the existing aliases and functions in the shell!
 
 DEFAULT_EDITOR="nano"
 ABSOLUTE_DOCKER_COMPOSE_DIR="/docker"
+
+# # # # # # # # # # # # | # # # # # # # # # # # #
+#                  PREPARATIONS                 #
+# # # # # # # # # # # # | # # # # # # # # # # # #
+
+# IMPORTANT: All function names from the current script must be listed here!
+functions() {
+    # Do not change the indentation!
+    echo "\
+alf \
+hg \
+cdb \
+mkd \
+ff \
+dexec \
+mkdocker \
+dcexist \
+dccheck \
+dcedit \
+dcupd \
+dcdown \
+dclogs \
+dcrestart \
+dcupdate"
+}
+
+# Remove aliases that have the same name as the functions in the script to avoid conflicts
+for func in $(functions); do
+    unalias "$func" 2>/dev/null
+done
 
 # # # # # # # # # # # # | # # # # # # # # # # # #
 #                   OVERVIEW                    #
@@ -16,21 +49,7 @@ alf() {
     alias
     echo
     echo 'Functions:'
-    for func in \
-        hg \
-        cdb \
-        mkd \
-        ff \
-        dexec \
-        mkdocker \
-        dcexist \
-        dccheck \
-        dcedit \
-        dcupd \
-        dcdown \
-        dclogs \
-        dcrestart \
-        dcupdate; do
+    for func in $(functions); do
         echo "$func"
     done
     echo

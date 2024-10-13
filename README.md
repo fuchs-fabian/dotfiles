@@ -10,6 +10,8 @@
 
 `.rcconf` is a file that contains aliases and functions for the Linux environment. It is used to configure the `.bashrc` and `.zshrc` files. The aliases and functions are used to simplify the usage of the terminal.
 
+> If you want to use this, aliases with the same names will be overwritten by this configuration!
+
 To get a quick overview of which aliases and functions can be used, simply execute the following in the terminal after installation:
 
 ```shell
