@@ -15,13 +15,19 @@
 `.bashrc`:
 
 ```shell
-wget -O ~/.rcconf https://raw.githubusercontent.com/fuchs-fabian/dotfiles/refs/heads/main/src/.rcconf && echo 'source ~/.rcconf' >> ~/.bashrc && source ~/.bashrc && echo "'.rcconf' downloaded and updated in '.bashrc'"
+wget -O ~/.rcconf https://raw.githubusercontent.com/fuchs-fabian/dotfiles/refs/heads/main/src/.rcconf && \
+echo -e '\nsource ~/.rcconf' >> ~/.bashrc && \
+source ~/.bashrc && \
+echo "'.rcconf' downloaded and updated in '.bashrc'"
 ```
 
 `.zshrc`:
 
 ```shell
-wget -O ~/.rcconf https://raw.githubusercontent.com/fuchs-fabian/dotfiles/refs/heads/main/src/.rcconf && echo 'source ~/.rcconf' >> ~/.zshrc && source ~/.zshrc && echo "'.rcconf' downloaded and updated in '.zshrc'"
+wget -O ~/.rcconf https://raw.githubusercontent.com/fuchs-fabian/dotfiles/refs/heads/main/src/.rcconf && \
+echo -e '\nsource ~/.rcconf' >> ~/.zshrc && \
+source ~/.zshrc && \
+echo "'.rcconf' downloaded and updated in '.zshrc'"
 ```
 
 ### Update
