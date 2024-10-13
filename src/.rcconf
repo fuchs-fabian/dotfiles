@@ -26,7 +26,7 @@ alf() {
         dcexist \
         dccheck \
         dcedit \
-        dcup \
+        dcupd \
         dcdown \
         dclogs \
         dcrestart \
@@ -361,7 +361,7 @@ dcedit() {
 }
 
 ## Up
-dcup() {
+dcupd() {
     dcexist || return 1
 
     if [ -z "$1" ]; then
@@ -399,7 +399,7 @@ dclogs() {
 ## Restart
 dcrestart() {
     dcdown "$1"
-    dcup "$1"
+    dcupd "$1"
     dclogs "$1"
 }
 
@@ -408,12 +408,12 @@ dcupdate() {
     if [ -z "$1" ]; then
         dcdown
         dclean
-        dcup
+        dcupd
         dclogs
     else
         dcdown "$1"
         dclean
-        dcup "$1"
+        dcupd "$1"
         dclogs "$1"
     fi
 }
