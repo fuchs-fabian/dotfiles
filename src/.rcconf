@@ -10,7 +10,12 @@ ABSOLUTE_DOCKER_COMPOSE_DIR="/docker"
 #                   OVERVIEW                    #
 # # # # # # # # # # # # | # # # # # # # # # # # #
 
-show_functions() {
+# List all aliases and functions
+alf() {
+    echo 'Aliases:'
+    alias
+    echo
+    echo 'Functions:'
     for func in \
         hg \
         cdb \
@@ -28,10 +33,9 @@ show_functions() {
         dcupdate; do
         echo "$func"
     done
+    echo
+    echo "For more information take a look at the '.rcconf' file."
 }
-
-# List all aliases and functions
-alias alf="echo 'Aliases:'; alias; echo; echo 'Functions:'; show_functions; echo; echo 'For more information take a look at the \'.rcconf\' file.'"
 
 # # # # # # # # # # # # | # # # # # # # # # # # #
 #                    GENERAL                    #
