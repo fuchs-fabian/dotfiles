@@ -61,7 +61,7 @@ alias p='pwd'
 # Edit
 alias e='$DEFAULT_EDITOR'
 
-# Edit the ./rcconf file
+# Edit the .rcconf file
 alias ercconf="e ~/.rcconf"
 
 # History
