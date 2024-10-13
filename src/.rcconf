@@ -1,0 +1,415 @@
+#!/usr/bin/env sh
+
+# DESCRIPTION:
+# This file contains aliases and functions that will be used in '.bashrc' and/or '.zshrc'.
+
+DEFAULT_EDITOR="nano"
+ABSOLUTE_DOCKER_COMPOSE_DIR="/docker"
+
+# # # # # # # # # # # # | # # # # # # # # # # # #
+#                   OVERVIEW                    #
+# # # # # # # # # # # # | # # # # # # # # # # # #
+
+show_functions() {
+    for func in \
+        hg \
+        cdb \
+        mkd \
+        ff \
+        dexec \
+        mkdocker \
+        dcexist \
+        dccheck \
+        dcedit \
+        dcup \
+        dcdown \
+        dclogs \
+        dcrestart \
+        dcupdate; do
+        echo "$func"
+    done
+}
+
+# List all aliases and functions
+alias alf="echo 'Aliases:'; alias; echo; echo 'Functions:'; show_functions; echo; echo 'For more information take a look at the \'.rcconf\' file.'"
+
+# # # # # # # # # # # # | # # # # # # # # # # # #
+#                    GENERAL                    #
+# # # # # # # # # # # # | # # # # # # # # # # # #
+
+# Colorize the output of some commands
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias ls='ls --color=auto'
+alias diff='diff --color=auto'
+alias ip='ip --color=auto'
+
+# Exit
+alias x='exit'
+
+# Clear
+alias c='clear'
+
+# Show the current directory
+alias p='pwd'
+
+# Edit
+alias e='$DEFAULT_EDITOR'
+
+# Edit the ./rcconf file
+alias ercconf="e ~/.rcconf"
+
+# History
+alias h='history'
+
+## Grep history
+hg() {
+    if [ -z "$1" ]; then
+        echo "Usage: hg <word>"
+    else
+        history | grep "$1"
+    fi
+}
+
+# List files
+alias lsh='ls -larth'
+alias ll='lsh'
+
+# Sudo
+alias s='sudo'
+
+## Change to root user
+alias cr='s -i'
+
+# Cd
+## Go back to the parent directory
+cdb() {
+    i=0
+    while [ $i -lt "${1:-1}" ]; do
+        cd ..
+        i=$((i + 1))
+    done
+}
+
+alias ..='cdb'
+alias ...='cdb 2'
+alias ....='cdb 3'
+alias .....='cdb 4'
+alias ......='cdb 5'
+
+## Go back to the previous directory
+alias cdp='cd -'
+
+## Go to the root directory
+alias cdr='cd /'
+
+## Go to the home directory
+alias cdh='cd ~'
+alias home='cdh'
+
+## Go to the Docker directory
+alias cdd='cd $ABSOLUTE_DOCKER_COMPOSE_DIR'
+
+# Create a new directory and change to it
+mkd() {
+    if [ -z "$1" ]; then
+        echo "Usage: $0 <directory_name>"
+        return 1
+    fi
+
+    mkdir -p "$1" ||
+        {
+            echo "Error: Failed to create directory '$1'."
+            return 1
+        }
+
+    cd "$1" ||
+        {
+            echo "Error: Failed to change directory to '$1'."
+            return 1
+        }
+}
+
+# Find files
+ff() {
+    if [ -z "$1" ]; then
+        echo "Usage: $0 <file_name>"
+        return 1
+    fi
+
+    find . -name "*$1*"
+}
+
+# # # # # # # # # # # # | # # # # # # # # # # # #
+#                     SYSTEM                    #
+# # # # # # # # # # # # | # # # # # # # # # # # #
+
+# Show system information
+alias sys-status='htop'
+
+# Show memory usage
+alias mem='free -h'
+
+# 'apt' package manager
+if command -v apt >/dev/null 2>&1; then
+    # Search for packages
+    alias psearch='apt search --names-only'
+
+    # Install packages
+    alias pi='apt install'
+
+    # Remove packages
+    alias prm='apt remove'
+
+    # Clear cache
+    alias sys-clear-cache='apt clean && rm -rf /var/lib/apt/lists/* && apt update'
+
+    # Update
+    alias sys-up='apt update && apt upgrade && apt autoremove'
+
+    # Full update
+    alias sys-up-full='apt update && apt full-upgrade && apt autoremove'
+
+    # Renew
+    alias sys-renew='sys-clear-cache && sys-up-full'
+fi
+
+# 'dnf' package manager
+if command -v dnf >/dev/null 2>&1; then
+    # Search for packages
+    alias psearch='dnf search'
+
+    # Install packages
+    alias pi='dnf install'
+
+    # Remove packages
+    alias prm='dnf remove'
+
+    # Clear cache
+    alias sys-clear-cache='dnf clean all && rm -rf /var/cache/dnf/* && dnf makecache'
+
+    # Update
+    alias sys-up='dnf upgrade'
+
+    # Full update
+    alias sys-up-full='dnf upgrade --refresh'
+
+    # Renew
+    alias sys-renew='sys-clear-cache && sys-up-full'
+fi
+
+# Network
+## Show all ports
+alias ports='nmap localhost'
+
+## Show DNS servers
+alias dns="systemd-resolve --status | grep 'DNS Servers'"
+
+# # # # # # # # # # # # | # # # # # # # # # # # #
+#                      GIT                      #
+# # # # # # # # # # # # | # # # # # # # # # # # #
+
+# Show git status
+alias gstat='git status'
+
+# Show git branch
+alias gb='git branch'
+
+# Show git diff
+alias gdiff='git diff'
+
+# Show git log
+alias glog='git log --oneline'
+
+# Checkout branch
+alias gcb='git checkout -b'
+
+# Add all files
+alias gaa='git add .'
+
+# Stash changes
+alias gst='git stash'
+
+# Commit
+alias gcm='git commit -m'
+
+# Push
+alias gp='git push'
+
+## Push to main
+alias gpmain='git push origin main'
+
+## Push to master
+alias gpmaster='git push origin master'
+
+## Push to upstream
+alias gpup='git push --set-upstream origin $(git branch --show-current)'
+
+# Pull
+alias gpl='git pull'
+
+## Pull rebase
+alias gplr='git pull --rebase'
+
+# # # # # # # # # # # # | # # # # # # # # # # # #
+#                    DOCKER                     #
+# # # # # # # # # # # # | # # # # # # # # # # # #
+
+# Check if Docker is running
+alias dia='systemctl is-active docker'
+
+# Check Docker
+alias dps='docker ps -a'
+
+# Clean Docker system
+alias dclean='docker system prune -a --volumes'
+
+# Docker exec
+dexec() {
+    if [ -z "$1" ]; then
+        echo "Usage: dexec <container_name_or_id> [command]"
+        return 1
+    fi
+
+    if ! docker ps --format '{{.Names}}' | grep -q "^$1$"; then
+        echo "Error: Container '$1' is not running."
+        return 1
+    fi
+
+    docker exec -it "$1" "${2-/bin/bash}"
+}
+
+# Create a new Docker project folder
+mkdocker() {
+    if [ -z "$1" ]; then
+        echo "Usage: $0 <folder_name>"
+        return 1
+    fi
+
+    compose_dir="$ABSOLUTE_DOCKER_COMPOSE_DIR/$1"
+
+    mkdir "$compose_dir" ||
+        {
+            echo "Error: Failed to create the directory '$compose_dir'."
+            return 1
+        }
+
+    touch "$compose_dir/docker-compose.yml" ||
+        {
+            echo "Error: Failed to create the 'docker-compose.yml' file in '$compose_dir'."
+            return 1
+        }
+
+    touch "$compose_dir/.env" ||
+        {
+            echo "Error: Failed to create the '.env' file in '$compose_dir'."
+            return 1
+        }
+
+    echo "'docker-compose.yml' and '.env' created at: '$compose_dir'"
+}
+
+# Docker compose
+## Check if the 'docker compose' command is available
+dcexist() {
+    docker compose version >/dev/null 2>&1 ||
+        {
+            echo "The 'docker compose' command is not available."
+            return 1
+        }
+    return 0
+}
+
+## Check if the directory and docker-compose.yml exist
+dccheck() {
+    compose_dir="$ABSOLUTE_DOCKER_COMPOSE_DIR/$1"
+
+    if [ ! -d "$compose_dir" ]; then
+        echo "Error: Directory '$compose_dir' does not exist."
+        return 1
+    fi
+
+    if [ -f "$compose_dir/docker-compose.yml" ]; then
+        echo "$compose_dir/docker-compose.yml"
+    elif [ -f "$compose_dir/docker-compose.yaml" ]; then
+        echo "$compose_dir/docker-compose.yaml"
+    else
+        echo "Error: Neither 'docker-compose.yml' nor 'docker-compose.yaml' found in '$compose_dir'."
+        return 1
+    fi
+}
+
+## Edit docker-compose file
+dcedit() {
+    if [ -z "$1" ]; then
+        echo "Usage: dcedit <compose_dir>"
+        return 1
+    fi
+
+    compose_file=$(dccheck "$1") || return 1
+
+    e "$compose_file" ||
+        {
+            echo "Error: Failed to open '$compose_file'."
+            return 1
+        }
+}
+
+## Up
+dcup() {
+    dcexist || return 1
+
+    if [ -z "$1" ]; then
+        docker compose up -d
+    else
+        compose_file=$(dccheck "$1") || return 1
+        docker compose -f "$compose_file" up -d
+    fi
+}
+
+## Down
+dcdown() {
+    dcexist || return 1
+
+    if [ -z "$1" ]; then
+        docker compose down
+    else
+        compose_file=$(dccheck "$1") || return 1
+        docker compose -f "$compose_file" down
+    fi
+}
+
+## Logs
+dclogs() {
+    dcexist || return 1
+
+    if [ -z "$1" ]; then
+        docker compose logs -f
+    else
+        compose_file=$(dccheck "$1") || return 1
+        docker compose -f "$compose_file" logs -f
+    fi
+}
+
+## Restart
+dcrestart() {
+    dcdown "$1"
+    dcup "$1"
+    dclogs "$1"
+}
+
+## Update
+dcupdate() {
+    if [ -z "$1" ]; then
+        dcdown
+        dclean
+        dcup
+        dclogs
+    else
+        dcdown "$1"
+        dclean
+        dcup "$1"
+        dclogs "$1"
+    fi
+}
