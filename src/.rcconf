@@ -195,7 +195,7 @@ ff() {
     find . -name "*$1*"
 }
 
-# Stopwatch
+# Stopwatch | Equivalent to 'time' command
 sw() {
     start=$(date +%s%3N)
     "$@"
