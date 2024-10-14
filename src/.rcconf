@@ -29,6 +29,7 @@ dns \
 ports \
 sys \
 me \
+other \
 dexec \
 mkdocker \
 dcexist \
@@ -318,6 +319,11 @@ me() {
     echo "Editor: $DEFAULT_EDITOR"
     echo "Home Directory: $HOME"
     echo "Docker Compose Directory: $ABSOLUTE_DOCKER_COMPOSE_DIR"
+}
+
+# Show information about all users
+other() {
+    (echo ":PW:UID:GID:FULL NAME:HOME DIR:SHELL" && cat /etc/passwd) | column -t -s ':'
 }
 
 # # # # # # # # # # # # | # # # # # # # # # # # #
