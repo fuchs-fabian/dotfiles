@@ -7,6 +7,7 @@
 # This will overwrite existing aliases with the same name!
 
 DEFAULT_EDITOR="nano"
+DISABLE_DUPLICATE_ENTRIES_IN_HISTORY=true
 ABSOLUTE_DOCKER_COMPOSE_DIR="/docker"
 
 # # # # # # # # # # # # | # # # # # # # # # # # #
@@ -19,6 +20,7 @@ functions() {
     echo "\
 alf \
 hg \
+hrmdups \
 cdb \
 mkd \
 ff \
@@ -86,6 +88,13 @@ alias ercconf="e ~/.rcconf"
 # History
 alias h='history'
 
+## Erase duplicates in history
+if [ "$DISABLE_DUPLICATE_ENTRIES_IN_HISTORY" = true ]; then
+    export HISTCONTROL=ignoredups:erasedups
+else
+    export HISTCONTROL=ignoredups
+fi
+
 ## Grep history
 hg() {
     if [ -z "$1" ]; then
@@ -93,6 +102,25 @@ hg() {
     else
         history | grep "$1"
     fi
+}
+
+## Remove duplicates from both bash and zsh history
+hrmdups() {
+    bash_history="$HOME/.bash_history"
+    zsh_history="$HOME/.zsh_history"
+
+    if [ -f "$bash_history" ]; then
+        awk '!seen[$0]++' "$bash_history" >"${bash_history}_tmp" && mv "${bash_history}_tmp" "$bash_history"
+        echo "Removed duplicate entries from Bash history."
+    fi
+
+    if [ -f "$zsh_history" ]; then
+        awk '!seen[$0]++' "$zsh_history" >"${zsh_history}_tmp" && mv "${zsh_history}_tmp" "$zsh_history"
+        echo "Removed duplicate entries from Zsh history."
+    fi
+
+    history -c # Clear the current history
+    history -r # Reload the history from the history file
 }
 
 # List files
