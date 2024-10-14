@@ -123,7 +123,6 @@ hrmdups() {
         echo "Removed duplicate entries from Zsh history."
     fi
 
-    history -c # Clear the current history
     history -r # Reload the history from the history file
 }
 
