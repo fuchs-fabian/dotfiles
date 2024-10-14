@@ -24,6 +24,9 @@ hrmdups \
 cdb \
 mkd \
 ff \
+dns \
+ports \
+sys \
 dexec \
 mkdocker \
 dcexist \
@@ -250,11 +253,51 @@ if command -v dnf >/dev/null 2>&1; then
 fi
 
 # Network
-## Show all ports
-alias ports='nmap localhost'
-
 ## Show DNS servers
-alias dns="systemd-resolve --status | grep 'DNS Servers'"
+dns() {
+    if command -v systemd-resolve >/dev/null 2>&1; then
+        systemd-resolve --status | grep 'DNS Servers' | awk '{print $3}'
+    else
+        grep 'nameserver' /etc/resolv.conf | awk '{print $2}' | tr '\n' ' '
+    fi
+}
+
+## Show all ports
+ports() {
+    if command -v nmap >/dev/null 2>&1; then
+        nmap localhost
+    elif command -v ss >/dev/null 2>&1; then
+        ss -tuln
+    elif command -v netstat >/dev/null 2>&1; then
+        netstat -tuln
+    else
+        echo "Error: No tool found to show the ports."
+    fi
+}
+
+# Show system information summary
+sys() {
+    echo "OS: $(grep '^NAME=' /etc/os-release | cut -d '"' -f 2)"
+    echo "Kernel Version: $(uname -r)"
+    echo "Architecture: $(uname -m)"
+    echo "Current User Session: $(whoami)"
+
+    echo
+    echo "Hostname: $(hostname)"
+    echo "DNS: $(dns)"
+    echo "IP Addresses: $(hostname -I)"
+
+    echo
+    echo "Memory:"
+    mem
+
+    echo
+    echo "Disk Usage:"
+    df -h
+
+    echo
+    echo "Uptime: $(uptime | awk -F' up |, ' '{sub(/^ +/, "", $2); print $2}')"
+}
 
 # # # # # # # # # # # # | # # # # # # # # # # # #
 #                      GIT                      #
