@@ -169,7 +169,7 @@ alias cdd='cd $ABSOLUTE_DOCKER_COMPOSE_DIR'
 # Create a new directory and change to it
 mkd() {
     if [ -z "$1" ]; then
-        echo "Usage: $0 <directory_name>"
+        echo "Usage: mkd <directory_name>"
         return 1
     fi
 
@@ -189,7 +189,7 @@ mkd() {
 # Find files
 ff() {
     if [ -z "$1" ]; then
-        echo "Usage: $0 <file_name>"
+        echo "Usage: ff <file_name>"
         return 1
     fi
 
@@ -403,7 +403,7 @@ dexec() {
 # Create a new Docker project folder
 mkdocker() {
     if [ -z "$1" ]; then
-        echo "Usage: $0 <folder_name>"
+        echo "Usage: mkdocker <folder_name>"
         return 1
     fi
 
