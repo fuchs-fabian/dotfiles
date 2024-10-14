@@ -416,7 +416,11 @@ dcexist() {
 
 ## Check if the directory and docker-compose.yml exist
 dccheck() {
-    compose_dir="$ABSOLUTE_DOCKER_COMPOSE_DIR/$1"
+    if [ -z "$1" ]; then
+        compose_dir="$(pwd)"
+    else
+        compose_dir="$ABSOLUTE_DOCKER_COMPOSE_DIR/$1"
+    fi
 
     if [ ! -d "$compose_dir" ]; then
         echo "Error: Directory '$compose_dir' does not exist."
