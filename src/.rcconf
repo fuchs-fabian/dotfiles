@@ -24,6 +24,7 @@ hrmdups \
 cdb \
 mkd \
 ff \
+sw \
 dns \
 ports \
 sys \
@@ -192,6 +193,15 @@ ff() {
     fi
 
     find . -name "*$1*"
+}
+
+# Stopwatch
+sw() {
+    start=$(date +%s%3N)
+    "$@"
+    end=$(date +%s%3N)
+    duration=$((end - start))
+    echo "Required time: ${duration}ms"
 }
 
 # # # # # # # # # # # # | # # # # # # # # # # # #
