@@ -28,6 +28,7 @@ sw \
 dns \
 ports \
 sys \
+me \
 dexec \
 mkdocker \
 dcexist \
@@ -289,7 +290,6 @@ sys() {
     echo "OS: $(grep '^NAME=' /etc/os-release | cut -d '"' -f 2)"
     echo "Kernel Version: $(uname -r)"
     echo "Architecture: $(uname -m)"
-    echo "Current User Session: $(whoami)"
 
     echo
     echo "Hostname: $(hostname)"
@@ -306,6 +306,18 @@ sys() {
 
     echo
     echo "Uptime: $(uptime | awk -F' up |, ' '{sub(/^ +/, "", $2); print $2}')"
+}
+
+# Show information about the current user
+me() {
+    whoami
+    echo "ID: $(id -u)"
+    echo "Group ID: $(id -g)"
+    echo "Groups: $(groups)"
+    echo "Shell: $SHELL"
+    echo "Editor: $DEFAULT_EDITOR"
+    echo "Home Directory: $HOME"
+    echo "Docker Compose Directory: $ABSOLUTE_DOCKER_COMPOSE_DIR"
 }
 
 # # # # # # # # # # # # | # # # # # # # # # # # #
