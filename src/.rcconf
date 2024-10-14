@@ -4,7 +4,7 @@
 # This file contains aliases and functions that will be used in '.bashrc' and/or '.zshrc'.
 #
 # IMPORTANT:
-# This will overwrite the existing aliases and functions in the shell!
+# This will overwrite existing aliases with the same name!
 
 DEFAULT_EDITOR="nano"
 ABSOLUTE_DOCKER_COMPOSE_DIR="/docker"
