@@ -213,7 +213,11 @@ sw() {
 # # # # # # # # # # # # | # # # # # # # # # # # #
 
 # Show system information
-alias sys-status='htop'
+if command -v htop >/dev/null 2>&1; then
+    alias sys-status='htop'
+else
+    alias sys-status='top'
+fi
 
 # Show memory usage
 alias mem='free -h'
