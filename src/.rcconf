@@ -6,6 +6,7 @@
 # IMPORTANT:
 # This will overwrite existing aliases with the same name!
 
+USE_SUDO=true
 DEFAULT_EDITOR="nano"
 DISABLE_DUPLICATE_ENTRIES_IN_HISTORY=true
 ABSOLUTE_DOCKER_COMPOSE_DIR="/docker"
@@ -13,6 +14,8 @@ ABSOLUTE_DOCKER_COMPOSE_DIR="/docker"
 # # # # # # # # # # # # | # # # # # # # # # # # #
 #                  PREPARATIONS                 #
 # # # # # # # # # # # # | # # # # # # # # # # # #
+
+[ "$USE_SUDO" = true ] && SUDO_CMD="sudo" || SUDO_CMD=""
 
 # IMPORTANT: All function names from the current script must be listed here!
 functions() {
@@ -132,10 +135,10 @@ hrmdups() {
 alias lsh='ls -larth'
 
 # Sudo
-alias s='sudo'
+alias s='sudo '
 
 ## Change to root user
-alias cr='s -i'
+alias cr='sudo -i'
 
 # Cd
 ## Go back to the parent directory
@@ -221,19 +224,19 @@ if command -v apt >/dev/null 2>&1; then
     alias psearch='apt search --names-only'
 
     # Install packages
-    alias pi='apt install'
+    alias pi='$SUDO_CMD apt install'
 
     # Remove packages
-    alias prm='apt remove'
+    alias prm='$SUDO_CMD apt remove'
 
     # Clear cache
-    alias sys-clear-cache='apt clean && rm -rf /var/lib/apt/lists/* && apt update'
+    alias sys-clear-cache='$SUDO_CMD apt clean && $SUDO_CMD rm -rf /var/lib/apt/lists/* && $SUDO_CMD apt update'
 
     # Update
-    alias sys-up='apt update && apt upgrade && apt autoremove'
+    alias sys-up='$SUDO_CMD apt update && $SUDO_CMD apt upgrade && $SUDO_CMD apt autoremove'
 
     # Full update
-    alias sys-up-full='apt update && apt full-upgrade && apt autoremove'
+    alias sys-up-full='$SUDO_CMD apt update && $SUDO_CMD apt full-upgrade && $SUDO_CMD apt autoremove'
 
     # Renew
     alias sys-renew='sys-clear-cache && sys-up-full'
@@ -245,19 +248,19 @@ if command -v dnf >/dev/null 2>&1; then
     alias psearch='dnf search'
 
     # Install packages
-    alias pi='dnf install'
+    alias pi='$SUDO_CMD dnf install'
 
     # Remove packages
-    alias prm='dnf remove'
+    alias prm='$SUDO_CMD dnf remove'
 
     # Clear cache
-    alias sys-clear-cache='dnf clean all && rm -rf /var/cache/dnf/* && dnf makecache'
+    alias sys-clear-cache='$SUDO_CMD dnf clean all && $SUDO_CMD rm -rf /var/cache/dnf/* && $SUDO_CMD dnf makecache'
 
     # Update
-    alias sys-up='dnf upgrade'
+    alias sys-up='$SUDO_CMD dnf upgrade'
 
     # Full update
-    alias sys-up-full='dnf upgrade --refresh'
+    alias sys-up-full='$SUDO_CMD dnf upgrade --refresh'
 
     # Renew
     alias sys-renew='sys-clear-cache && sys-up-full'
